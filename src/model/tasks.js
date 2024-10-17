@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize';
-import connection from '../database/index.js';
+const DataTypes = require('sequelize');
+const connection = require('../database/index.js');
 
-//Mapeando a model de 'task'
+// Mapeando a model de 'task'
 const Task = connection.define('Task', {
   id: {
     type: DataTypes.INTEGER,
@@ -23,7 +23,8 @@ const Task = connection.define('Task', {
     defaultValue: false, 
   },
 }, {
+  tableName: 'Tasks', 
   timestamps: true,
 });
 
-export default Task;
+module.exports = Task;

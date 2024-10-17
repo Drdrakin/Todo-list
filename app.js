@@ -1,18 +1,20 @@
-import express from 'express';
-import taskRoutes from './src/routes/taskRoutes.js';
-import sequelize from './src/database/index.js'; 
+const express = require('express');
+const taskRoutes = require('./src/routes/taskRoutes.js');
+const sequelize = require('./src/database/index.js');
+const metricsRouter = require('./src/tests/metrics.js');
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); 
+app.use(express.json());
 
-app.use('/api', taskRoutes);
+app.use('/tasks', taskRoutes);
+app.use('/metrics', metricsRouter);
 
 const startServer = async () => {
     try {
         await sequelize.sync();
-
         app.listen(PORT, () => {
             console.log(`Servidor rodando na porta ${PORT}`);
         });
@@ -22,3 +24,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+module.exports = app;

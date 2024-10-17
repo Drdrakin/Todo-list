@@ -1,11 +1,10 @@
-// src/routes/taskRoutes.js
-import { Router } from 'express';
-import Task from '../model/tasks.js';
+const { Router } = require('express');
+const Task = require('../model/tasks.js');
 
 const router = Router();
 
 // Criar uma nova tarefa
-router.post('/tasks', async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, description } = req.body;
     try {
         const newTask = await Task.create({ title, description, completed: false });
@@ -16,7 +15,7 @@ router.post('/tasks', async (req, res) => {
 });
 
 // Listar todas as tarefas
-router.get('/tasks', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const tasks = await Task.findAll();
         res.status(200).json(tasks);
@@ -26,7 +25,7 @@ router.get('/tasks', async (req, res) => {
 });
 
 // Atualizar uma tarefa existente
-router.put('/tasks/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { title, description } = req.body;
     try {
@@ -44,7 +43,7 @@ router.put('/tasks/:id', async (req, res) => {
 });
 
 // Remover uma tarefa
-router.delete('/tasks/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const task = await Task.findByPk(id);
@@ -59,7 +58,7 @@ router.delete('/tasks/:id', async (req, res) => {
 });
 
 // Marcar uma tarefa como concluída
-router.patch('/tasks/:id/complete', async (req, res) => {
+router.patch('/:id/complete', async (req, res) => {
     const { id } = req.params;
     try {
         const task = await Task.findByPk(id);
@@ -74,4 +73,4 @@ router.patch('/tasks/:id/complete', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;
